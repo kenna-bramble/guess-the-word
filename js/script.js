@@ -1,9 +1,9 @@
-const guessedLetters = document.querySelector(".guessed-letters");
+const guessedLettersElement = document.querySelector(".guessed-letters");
 const guessButton = document.querySelector(".guess");
 const letterInput = document.querySelector(".letter");
 const wordInProgress = document.querySelector(".word-in-progress");
-const remaining = document.querySelector(".remaining");
-const remainingGuesses = document.querySelector(".remaining span");
+const remainingGuessesElement = document.querySelector(".remaining");
+const remainingGuessesSpan = document.querySelector(".remaining span");
 const message = document.querySelector(".message");
 const playAgainButton = document.querySelector(".play-again");
 
@@ -17,7 +17,7 @@ const placeholder = function (word) {
         console.log(letter); // logs out each letter to the console (not sure why this is important, it just logs the letters in the console)
         placeholderLetters.push("●"); // adds each placeholder circle to the end of the empty array(placeholderLetters)
     }
-wordInProgress.innerText = placeholderLetters.join(""); // makes the word-in-progress class in the html doc show the circles... the .join("") removes the commas in between the circles
+    wordInProgress.innerText = placeholderLetters.join(""); // makes the word-in-progress class in the html doc show the circles... the .join("") removes the commas in between the circles
 };
 
 placeholder(word); // runs the function
@@ -29,10 +29,9 @@ guessButton.addEventListener("click", function (e) {
     message.innerText = ""; //empty message paragraph
     const guess = letterInput.value; // captures the value of the 'letter' form 
     const goodGuess = validateInput(guess); //takes the 'guess' aka input and runs it through the validateInput function
-    if (goodGuess) {
+    if (goodGuess) { //runs the makeGuess function if the validateInput function says that the player's input matches the criteria
         makeGuess(guess);
     }
-    //console.log(guess); // logs out guess (input) entered into the letter form
     letterInput.value = ""; //empties out the letter form where you enter the letter so it disappears after you hit guess button
 
 });
@@ -54,11 +53,11 @@ const validateInput = function (input) { //this function's purpose is to validat
 
 
 //Create a Function to Capture Input
-const makeGuess = function (guess) {
-    guess = guess.toUppercase();
-    if (guessedLetters.includes(guess)) {
+const makeGuess = function (guess) { //accepts the guess(input) as parameter
+    guess = guess.toUpperCase(); //convert all input letters to one case (uppercase!)
+    if (guessedLetters.includes(guess)) { //check to see if your guessedLetters array already has that letter
         message.innerText = "You have already guessed that letter! Try again.";
-    } else {
+    } else { //if user has not guessed the letter yet, it is added to the guessedLetters array! 
         guessedLetters.push(guess);
         console.log(guessedLetters);
     }
