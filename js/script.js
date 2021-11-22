@@ -58,8 +58,48 @@ const makeGuess = function (guess) { //accepts the guess(input) as parameter
     if (guessedLetters.includes(guess)) { //check to see if your guessedLetters array already has that letter
         message.innerText = "You have already guessed that letter! Try again.";
     } else { //if user has not guessed the letter yet, it is added to the guessedLetters array! 
-        guessedLetters.push(guess);
+        guessedLetters.push(guess); //adds the guess to the array of guessedLetters
         console.log(guessedLetters);
+        showGuessedLetters(); //runs the function when the letter has not yet been guessed 
+        updateWordInProgress(guessedLetters); //
     }
     
+};
+
+
+//Create a Function to Show the Guessed Letters
+const showGuessedLetters = function () {
+    guessedLettersElement.innerHTML = ""; //empties the ul element where the player's guessed letters with display
+    for (const letter of guessedLetters) { // loops through each letter in the guessedLetters array --->
+        const li = document.createElement("li"); //then creates a new list item --->
+        li.innerText = letter; // then fills it in with each letter from the guessedLetters array --->
+        guessedLettersElement.append(li); // then adds it to the unordered list!
+    }
+};
+
+
+//Create a Function to Update the Word in Progress
+const updateWordInProgress = function (guessedLetters) { //this function will replace the circle symbols with correct letters guessed
+    const wordUpper = word.toUpperCase(); //changes word variable to uppercase
+    const wordArray = wordUpper.split(""); //splits the word string into an array
+    const revealWord = []; //empty array that will update with the correct guesses
+    for (const letter of wordArray) { //for each letter in the wordArray(which is the word the player is trying to guess) -->
+        if (guessedLetters.includes(letter)) { //if the guessedLetters array includes a letter from the wordArray(the special word!) --->
+            revealWord.push(letter.toUpperCase()); //push said letter to the revealWord array (and make it uppercase!)
+        } else {
+            revealWord.push("●"); //otherwise, push the circle
+        } 
+    }
+    wordInProgress.innerText = revealWord.join("");
+    checkIfWon(); //runs the function to check if the user has won once all correct letters have been guessed
+    //console.log(wordArray); 
+};
+
+
+//Create a Function to Check If the Player Won
+const checkIfWon = function () {
+    if (word.toUpperCase() === wordInProgress.innerText) { //verifies that the player's word in progress is equal to the secret word
+        message.classList.add("win"); //adds the .win class (located in style.css) to the message paragraph if the player's guessed letters equal the secret word
+        message.innerHTML = `<p class="highlight">You guessed the correct word! Congrats!</p>`; //adds HTML if the condition is met
+    }
 };
