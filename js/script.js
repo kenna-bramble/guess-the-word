@@ -8,7 +8,7 @@ const message = document.querySelector(".message");
 const playAgainButton = document.querySelector(".play-again");
 
 let word = "magnolia"; // <-- this is a STRING, which represents and manipulates a SEQUENCE of characters. If "magnolia" were wrapped in an array like ["magnolia"], then there weould only be ONE item instead of EIGHT!
-const guessedLetters = []; //this empty array will contain all the letters that the player has guessed
+let guessedLetters = []; //this empty array will contain all the letters that the player has guessed
 let remainingGuesses = 8;
 
 const getWord = async function () {
@@ -21,6 +21,7 @@ const getWord = async function () {
     
     //console.log(wordArray);
 };
+
 getWord();
 
 
@@ -28,7 +29,7 @@ getWord();
 const placeholder = function (word) {
     const placeholderLetters = []; // empty array that will populate with as many circles as there are letters in our word
     for (const letter of word) { // loops through each letter of the word (which is an array) until we end up with this: ["●", "●', "●", "●", "●", "●", "●", "●"] for "magnolia"
-        console.log(letter); // logs out each letter to the console (not sure why this is important, it just logs the letters in the console)
+        //console.log(letter); // logs out each letter to the console (not sure why this is important, it just logs the letters in the console)
         placeholderLetters.push("●"); // adds each placeholder circle to the end of the empty array(placeholderLetters)
     }
     wordInProgress.innerText = placeholderLetters.join(""); // makes the word-in-progress class in the html doc show the circles... the .join("") removes the commas in between the circles
@@ -121,6 +122,7 @@ const updateGuessesRemaining = function (guess) {
     if (remainingGuesses === 0) {
         message.innerHTML = `Game over! The word was <span class="highlight">${word}</span>.`;
         remainingGuessesSpan.innerText = "no guesses";
+        startOver();
     } else if (remainingGuesses === 1) {
         remainingGuessesSpan.innerText = `${remainingGuesses} guess`;
     } else {
@@ -148,3 +150,19 @@ const startOver = function () {
     guessedLettersElement.classList.add("hide");
     playAgainButton.classList.remove("hide");
 };
+
+
+//Add a Click Event to the Play Again Button
+playAgainButton.addEventListener("click", function () {
+    message.classList.remove("win");
+    message.innerText = "";
+    guessedLettersElement.innerHTML = "";
+    remainingGuesses = 8;
+    guessedLetters = [];
+    remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
+    guessButton.classList.remove("hide");
+    remainingGuessesElement.classList.remove("hide");
+    guessedLettersElement.classList.remove("hide");
+    playAgainButton.classList.add("hide");
+    getWord();
+});
