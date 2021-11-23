@@ -134,7 +134,17 @@ const checkIfWon = function () {
     if (word.toUpperCase() === wordInProgress.innerText) { //verifies that the player's word in progress is equal to the secret word
         message.classList.add("win"); //adds the .win class (located in style.css) to the message paragraph if the player's guessed letters equal the secret word
         message.innerHTML = `<p class="highlight">You guessed the correct word! Congrats!</p>`; //adds HTML if the condition is met
+        
+        startOver();
     }
+    
 };
 
 
+//Create a Function to Hide & Show Elements
+const startOver = function () {
+    guessButton.classList.add("hide");
+    remainingGuessesElement.classList.add("hide");
+    guessedLettersElement.classList.add("hide");
+    playAgainButton.classList.remove("hide");
+};
